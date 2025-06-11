@@ -1,8 +1,10 @@
 from django.shortcuts import render
+from .models import Blog
 
 
 def home(request):
-    """
-    Render the home page.
-    """
-    return render(request, "index.html")
+    blogs = Blog.objects.all().order_by("-created_at")
+    context = {
+        "blogs": blogs,
+    }
+    return render(request, "index.html", context)

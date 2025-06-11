@@ -1,160 +1,120 @@
-{% extends "base.html" %}
-{% load static %}
-{% block content %}
-    <div class="container mt-5">
-        <h1>Welcome to Your Projects Catalogue</h1>
-        <p class="lead">Document your Django projects and what you have learned from each one as a junior developer.</p>
-           <!-- cards start -->
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            <!-- card-1 -->
-            <div class="col">
-                <div class="card h-100">
-                    <a href="#" class="card-link-wrapper">
-                        <img src="./static/images/i-ran-landscape.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">In 2025 i ran blog</h5>
-                            <h6 class="mt-3 mb-2 fw-bold">Description:</h6>
-                            <p class="card-text">This is a blog to document my running journey. It is your typical blog with CRUD operations and Authentication. I have used third party emailing and marketing app called Brevo to manage my subscribers.</p>
-                        </div>
-                    </a>
-                        
-                    <div class="card-body">
-                        <h6 class="mt-3 mb-2 fw-bold">Features:</h6>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>User Authentication & Authorization</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>CRUD operations for blog posts</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Email newsletter subscription</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Responsive design</li>
-                        </ul>
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="container mt-5">
+	<h1>Welcome to Your Projects Catalogue</h1>
+	<p class="lead">
+		Document your Django projects and what you have learned from each one as a
+		junior developer.
+	</p>
+	<!-- cards start -->
+	<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+		<!-- card-1 -->
+		{% for blog in blogs %}
+		<div class="col">
+			<div class="card h-100">
+				<a
+					href="#"
+					class="card-link-wrapper">
+					<img
+						src="{{blog.image.url}}"
+						class="card-img-top"
+						alt="..." />
+					<div class="card-body">
+						<h5 class="card-title">{{blog.title}}</h5>
+						<h6 class="mt-3 mb-2 fw-bold">Description:</h6>
+						<p class="card-text">{{blog.content}}</p>
+					</div>
+				</a>
 
-                        <h6 class="mt-3 mb-2 fw-bold">Tech Stack:</h6>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-code-slash me-2"></i>Django Framework</li>
-                            <li><i class="bi bi-code-slash me-2"></i>PostgreSQL Database</li>
-                            <li><i class="bi bi-code-slash me-2"></i>Bootstrap 5</li>
-                            <li><i class="bi bi-code-slash me-2"></i>Brevo Email Marketing API</li>
-                        </ul>
+				<div class="card-body">
+					<h6 class="mt-3 mb-2 fw-bold">Features:</h6>
+					<ul class="list-unstyled">
+						{% for feature in blog.features.all %}
+						<li>
+							<i class="bi bi-check-circle-fill text-success me-2"></i>{{ feature.name }}
+						</li>
+						{% endfor %}
+					</ul>
 
-                        <h6 class="mt-3 mb-2 fw-bold">What I Learned:</h6>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-lightbulb me-2"></i>Integration with third-party APIs</li>
-                            <li><i class="bi bi-lightbulb me-2"></i>User authentication best practices</li>
-                            <li><i class="bi bi-lightbulb me-2"></i>Database relationship modeling</li>
-                            <li><i class="bi bi-lightbulb me-2"></i>Email template design and automation</li>
-                            <li><i class="bi bi-lightbulb me-2"></i>Different Cloud Based Deployment Platforms</li>
-                        </ul>
+					<h6 class="mt-3 mb-2 fw-bold">Tech Stack:</h6>
+					<ul class="list-unstyled">
+						{% for tech in blog.tech_stack.all %}
+						<li><i class="bi bi-code-slash me-2"></i>{{ tech.name }}</li>
+						{% endfor %}
+					</ul>
 
-                        <div class="mt-3">
-                            <a href="#" class="btn btn-outline-primary me-2">View Project</a>
-                            <a href="https://github.com/shaymk1/2025-i-ran-gallery" class="btn btn-outline-secondary">GitHub Repo</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- card-2 -->
-            <div class="col">
-                <div class="card h-100">
-                    <a href="#" class="card-link-wrapper">
-                        <img src="./static/images/me-aunty-centurion-3.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">In 2025 i ran blog</h5>
-                            <p class="card-text">This is a blog to document my running journey. It is simple typical blog where it has a home page, a blog page, a way to add, delete or update blogs. I have used third party emailing and marketing app called Brevo to manage my subscribers.</p>
-                        </div>
-                    </a>
-                        
-                    <div class="card-body">
-                        <h6 class="mt-3 mb-2 fw-bold">Features:</h6>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>User Authentication & Authorization</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>CRUD operations for blog posts</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Email newsletter subscription</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Responsive design</li>
-                        </ul>
+					<h6 class="mt-3 mb-2 fw-bold">What I Learned:</h6>
+					<ul class="list-unstyled">
+						{% for learning in blog.learnings.all %}
+						<li>
+							<i class="bi bi-lightbulb me-2"></i>{{ learning.description }}
+						</li>
+						{% endfor %}
+					</ul>
 
-                        <h6 class="mt-3 mb-2 fw-bold">Tech Stack:</h6>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-code-slash me-2"></i>Django & Django REST Framework</li>
-                            <li><i class="bi bi-code-slash me-2"></i>PostgreSQL Database</li>
-                            <li><i class="bi bi-code-slash me-2"></i>Bootstrap 5</li>
-                            <li><i class="bi bi-code-slash me-2"></i>Brevo Email Marketing API</li>
-                        </ul>
+					<div class="mt-3">
+						{% if blog.project_url %}
+						<a
+							href="{{ blog.project_url }}"
+							class="btn btn-outline-primary me-2"
+							>View Project</a
+						>
+						{% endif %} {% if blog.github_url %}
+						<a
+							href="{{ blog.github_url }}"
+							class="btn btn-outline-secondary"
+							>GitHub Repo</a
+						>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		<!-- Pagination Example (for Home page, can be adapted for Projects page) -->
+		<div class="container mt-4">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center">
+					<li class="page-item disabled">
+						<a
+							class="page-link"
+							href="#"
+							tabindex="-1"
+							aria-disabled="true"
+							>Previous</a
+						>
+					</li>
+					<li class="page-item active">
+						<a
+							class="page-link"
+							href="#"
+							>1</a
+						>
+					</li>
+					<li class="page-item">
+						<a
+							class="page-link"
+							href="#"
+							>2</a
+						>
+					</li>
+					<li class="page-item">
+						<a
+							class="page-link"
+							href="#"
+							>3</a
+						>
+					</li>
+					<li class="page-item">
+						<a
+							class="page-link"
+							href="#"
+							>Next</a
+						>
+					</li>
+				</ul>
+			</nav>
+		</div>
 
-                        <h6 class="mt-3 mb-2 fw-bold">What I Learned:</h6>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-lightbulb me-2"></i>Integration with third-party APIs</li>
-                            <li><i class="bi bi-lightbulb me-2"></i>User authentication best practices</li>
-                            <li><i class="bi bi-lightbulb me-2"></i>Database relationship modeling</li>
-                            <li><i class="bi bi-lightbulb me-2"></i>Email template design and automation</li>
-                        </ul>
-
-                        <div class="mt-3">
-                            <a href="#" class="btn btn-outline-primary me-2">View Project</a>
-                            <a href="#" class="btn btn-outline-secondary">GitHub Repo</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-              <!-- card-3 -->
-            <div class="col">
-                <div class="card h-100">
-                    <a href="#" class="card-link-wrapper">
-                        <img src="./static/images/i-ran.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">In 2025 i ran blog</h5>
-                            <p class="card-text">This is a blog to document my running journey. It is simple typical blog where it has a home page, a blog page, a way to add, delete or update blogs. I have used third party emailing and marketing app called Brevo to manage my subscribers.</p>
-                        </div>
-                    </a>
-                        
-                    <div class="card-body">
-                        <h6 class="mt-3 mb-2 fw-bold">Features:</h6>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>User Authentication & Authorization</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>CRUD operations for blog posts</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Email newsletter subscription</li>
-                            <li><i class="bi bi-check-circle-fill text-success me-2"></i>Responsive design</li>
-                        </ul>
-
-                        <h6 class="mt-3 mb-2 fw-bold">Tech Stack:</h6>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-code-slash me-2"></i>Django & Django REST Framework</li>
-                            <li><i class="bi bi-code-slash me-2"></i>PostgreSQL Database</li>
-                            <li><i class="bi bi-code-slash me-2"></i>Bootstrap 5</li>
-                            <li><i class="bi bi-code-slash me-2"></i>Brevo Email Marketing API</li>
-                        </ul>
-
-                        <h6 class="mt-3 mb-2 fw-bold">What I Learned:</h6>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-lightbulb me-2"></i>Integration with third-party APIs</li>
-                            <li><i class="bi bi-lightbulb me-2"></i>User authentication best practices</li>
-                            <li><i class="bi bi-lightbulb me-2"></i>Database relationship modeling</li>
-                            <li><i class="bi bi-lightbulb me-2"></i>Email template design and automation</li>
-                        </ul>
-
-                        <div class="mt-3">
-                            <a href="#" class="btn btn-outline-primary me-2">View Project</a>
-                            <a href="#" class="btn btn-outline-secondary">GitHub Repo</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Pagination Example (for Home page, can be adapted for Projects page) -->
-    <div class="container mt-4">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-
-{% endblock content %}
+		{% endblock content %}
+	</div>
+</div>
