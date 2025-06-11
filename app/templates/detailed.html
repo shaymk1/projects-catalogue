@@ -1,0 +1,93 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<div class="container mt-5">
+	<div class="row">
+		<div class="col-lg-8 mx-auto">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+					<li
+						class="breadcrumb-item active"
+						aria-current="page">
+						{{ blog.title }}
+					</li>
+				</ol>
+			</nav>
+
+			<div class="card shadow-sm">
+				<img
+					src="{{ blog.image.url }}"
+					class="card-img-top"
+					alt="{{ blog.title }}" />
+				<div class="card-body">
+					<h1 class="card-title">{{ blog.title }}</h1>
+					<p class="text-muted">Added {{ blog.created_at|date:"F j, Y" }}</p>
+
+					<div class="mb-4">
+						<h5 class="mb-3">Description</h5>
+						<p class="card-text">{{ blog.content }}</p>
+					</div>
+
+					<div class="mb-4">
+						<h5 class="mb-3">Features</h5>
+						<ul class="list-group list-group-flush">
+							{% for feature in blog.features.all %}
+							<li class="list-group-item">
+								<i class="bi bi-check-circle-fill text-success me-2"></i>
+								{{ feature.name }}
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+
+					<div class="mb-4">
+						<h5 class="mb-3">Tech Stack</h5>
+						<ul class="list-group list-group-flush">
+							{% for tech in blog.tech_stack.all %}
+							<li class="list-group-item">
+								<i class="bi bi-code-slash me-2"></i>
+								{{ tech.name }}
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+
+					<div class="mb-4">
+						<h5 class="mb-3">What I Learned</h5>
+						<ul class="list-group list-group-flush">
+							{% for learning in blog.learnings.all %}
+							<li class="list-group-item">
+								<i class="bi bi-lightbulb me-2"></i>
+								{{ learning.description }}
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+
+					<div class="d-flex gap-2 mt-4">
+						{% if blog.project_url %}
+						<a
+							href="{{ blog.project_url }}"
+							class="btn btn-primary"
+							target="_blank">
+							<i class="bi bi-box-arrow-up-right me-2"></i>View Live Project
+						</a>
+						{% endif %} {% if blog.github_url %}
+						<a
+							href="{{ blog.github_url }}"
+							class="btn btn-dark"
+							target="_blank">
+							<i class="bi bi-github me-2"></i>View on GitHub
+						</a>
+						{% endif %}
+						<a
+							href="{% url 'home' %}"
+							class="btn btn-outline-secondary">
+							<i class="bi bi-arrow-left me-2"></i>Back to Projects
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

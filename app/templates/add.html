@@ -1,60 +1,223 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Project - Projects Catalogue</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="static/css/style.css">
-</head>
-<body>
-    <!-- ...existing navbar code... -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">Projects Catalogue</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="projects.html">Projects</a>
-                    </li>
-                </ul>
-                <form class="d-flex me-2" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Add
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item active" aria-current="page" href="add.html">Add Project</a></li>
-                        <li><a class="dropdown-item" href="update.html">Update Project</a></li>
-                        <li><a class="dropdown-item" href="delete.html">Delete Project</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <div class="container mt-5">
-        <h2>Add a New Project</h2>
-        <form>
-            <div class="mb-3">
-                <label for="projectName" class="form-label">Project Name</label>
-                <input type="text" class="form-control" id="projectName" required>
-            </div>
-            <div class="mb-3">
-                <label for="projectDescription" class="form-label">What did you learn?</label>
-                <textarea class="form-control" id="projectDescription" rows="4" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-success">Add Project</button>
-        </form>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% extends "base.html" %} {% load static %} {% block content %}
+<!-- Include TinyMCE -->
+<script
+	src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"
+	referrerpolicy="origin"></script>
+<script>
+	tinymce.init({
+		selector: '#projectDescription',
+		plugins:
+			'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+		toolbar:
+			'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+		height: 300,
+	});
+</script>
+
+<div class="container mt-5">
+	<h2>Add a New Project</h2>
+	<form
+		method="post"
+		enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="mb-3">
+			<label
+				for="projectImage"
+				class="form-label"
+				>Project Image</label
+			>
+			<input
+				type="file"
+				class="form-control"
+				id="projectImage"
+				name="image"
+				accept="image/*"
+				required />
+		</div>
+		<div class="mb-3">
+			<label
+				for="projectName"
+				class="form-label"
+				>Project Name</label
+			>
+			<input
+				type="text"
+				class="form-control"
+				id="projectName"
+				name="title"
+				required />
+		</div>
+		<div class="mb-3">
+			<label
+				for="projectDescription"
+				class="form-label"
+				>Project Description</label
+			>
+			<textarea
+				class="form-control"
+				id="projectDescription"
+				name="content"
+				rows="4"
+				required></textarea>
+		</div>
+
+		<!-- Features Section -->
+		<div class="mb-3">
+			<label class="form-label">Features</label>
+			<div class="feature-inputs">
+				<div class="input-group mb-2">
+					<span class="input-group-text"
+						><i class="bi bi-check-circle-fill"></i
+					></span>
+					<input
+						type="text"
+						class="form-control"
+						name="features[]"
+						placeholder="Enter a feature"
+						required />
+					<button
+						type="button"
+						class="btn btn-outline-success add-feature">
+						+
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Tech Stack Section -->
+		<div class="mb-3">
+			<label class="form-label">Tech Stack</label>
+			<div class="tech-stack-inputs">
+				<div class="input-group mb-2">
+					<span class="input-group-text"><i class="bi bi-code-slash"></i></span>
+					<input
+						type="text"
+						class="form-control"
+						name="tech_stack[]"
+						placeholder="Enter a technology"
+						required />
+					<button
+						type="button"
+						class="btn btn-outline-success add-tech">
+						+
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Learnings Section -->
+		<div class="mb-3">
+			<label class="form-label">What I Learned</label>
+			<div class="learning-inputs">
+				<div class="input-group mb-2">
+					<span class="input-group-text"><i class="bi bi-lightbulb"></i></span>
+					<input
+						type="text"
+						class="form-control"
+						name="learnings[]"
+						placeholder="Enter what you learned"
+						required />
+					<button
+						type="button"
+						class="btn btn-outline-success add-learning">
+						+
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- URLs Section -->
+		<div class="mb-3">
+			<label
+				for="projectUrl"
+				class="form-label"
+				>Project URL (optional)</label
+			>
+			<input
+				type="url"
+				class="form-control"
+				id="projectUrl"
+				name="project_url"
+				placeholder="https://your-project-url.com" />
+		</div>
+		<div class="mb-3">
+			<label
+				for="githubUrl"
+				class="form-label"
+				>GitHub URL (optional)</label
+			>
+			<input
+				type="url"
+				class="form-control"
+				id="githubUrl"
+				name="github_url"
+				placeholder="https://github.com/username/repository" />
+		</div>
+
+		<button
+			type="submit"
+			class="btn btn-success">
+			Add Project
+		</button>
+	</form>
+</div>
+
+<!-- JavaScript for dynamic form fields -->
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		function createAddButtonHandler(containerClass, inputName, iconClass) {
+			return function () {
+				const container = document.querySelector('.' + containerClass);
+				const newInput = document.createElement('div');
+				newInput.className = 'input-group mb-2';
+				newInput.innerHTML = `
+                        <span class="input-group-text"><i class="${iconClass}"></i></span>
+                        <input type="text" class="form-control" name="${inputName}[]" required>
+                        <button type="button" class="btn btn-outline-danger remove-field">-</button>
+                    `;
+				container.appendChild(newInput);
+
+				newInput
+					.querySelector('.remove-field')
+					.addEventListener('click', function () {
+						newInput.remove();
+					});
+			};
+		}
+
+		// Add event listeners for each section
+		document
+			.querySelector('.add-feature')
+			.addEventListener(
+				'click',
+				createAddButtonHandler(
+					'feature-inputs',
+					'features',
+					'bi bi-check-circle-fill'
+				)
+			);
+
+		document
+			.querySelector('.add-tech')
+			.addEventListener(
+				'click',
+				createAddButtonHandler(
+					'tech-stack-inputs',
+					'tech_stack',
+					'bi bi-code-slash'
+				)
+			);
+
+		document
+			.querySelector('.add-learning')
+			.addEventListener(
+				'click',
+				createAddButtonHandler(
+					'learning-inputs',
+					'learnings',
+					'bi bi-lightbulb'
+				)
+			);
+	});
+</script>
+{% endblock content %}

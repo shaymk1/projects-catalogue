@@ -1,10 +1,7 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <div class="container mt-5">
-	<h1>Welcome to Your Projects Catalogue</h1>
-	<p class="lead">
-		Document your Django projects and what you have learned from each one as a
-		junior developer.
-	</p>
+	<h1>Welcome to my Projects Catalogue</h1>
+	
 	<!-- cards start -->
 	<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 		<!-- card-1 -->
@@ -12,7 +9,7 @@
 		<div class="col">
 			<div class="card h-100">
 				<a
-					href="#"
+					href="{% url 'detailed' blog.id %}"
 					class="card-link-wrapper">
 					<img
 						src="{{blog.image.url}}"
@@ -115,6 +112,7 @@
 			</nav>
 		</div>
 
-		{% endblock content %}
+	
 	</div>
 </div>
+{% endblock content %}

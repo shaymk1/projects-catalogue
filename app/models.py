@@ -23,7 +23,6 @@ class Learning(models.Model):
 
 
 class Blog(models.Model):
-
     image = models.ImageField(upload_to="media/", blank=True, null=True)
     title = models.CharField(max_length=200)
     content = models.TextField()
