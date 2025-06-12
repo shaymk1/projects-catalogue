@@ -1,4 +1,4 @@
-import re
+
 from django.shortcuts import render, redirect
 from .models import Blog
 from .forms import BlogForm

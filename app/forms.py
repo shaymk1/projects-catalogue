@@ -1,27 +1,36 @@
 from django import forms
 from .models import Blog, Feature, TechStack, Learning
-from ckeditor.widgets import CKEditorWidget
+from django_ckeditor_5.widgets import CKEditor5Widget
 
 
 class BlogForm(forms.ModelForm):
     # Dynamically added fields for many-to-many relationships
     features = forms.CharField(
         widget=forms.TextInput(
-            attrs={"data-role": "tagsinput", "placeholder": "Add features"}
+            attrs={
+                "class": "form-control",
+                "placeholder": "Enter features (comma-separated)",
+            }
         ),
         required=False,
         help_text="Enter features separated by commas",
     )
     tech_stack = forms.CharField(
         widget=forms.TextInput(
-            attrs={"data-role": "tagsinput", "placeholder": "Add technologies"}
+            attrs={
+                "class": "form-control",
+                "placeholder": "Enter technologies (comma-separated)",
+            }
         ),
         required=False,
         help_text="Enter technologies separated by commas",
     )
     learnings = forms.CharField(
         widget=forms.TextInput(
-            attrs={"data-role": "tagsinput", "placeholder": "Add learnings"}
+            attrs={
+                "class": "form-control",
+                "placeholder": "Enter learnings (comma-separated)",
+            }
         ),
         required=False,
         help_text="Enter learnings separated by commas",
@@ -31,7 +40,9 @@ class BlogForm(forms.ModelForm):
         model = Blog
         fields = ["image", "title", "content", "project_url", "github_url"]
         widgets = {
-            "content": CKEditorWidget(),
+            "content": CKEditor5Widget(
+                attrs={"class": "django_ckeditor_5"}, config_name="default"
+            ),
             "title": forms.TextInput(
                 attrs={"class": "form-control", "placeholder": "Enter project name"}
             ),
