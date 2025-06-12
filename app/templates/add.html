@@ -1,59 +1,221 @@
 {% extends "base.html" %} {% load static %} {% block content %}
-<!-- Include Bootstrap Tags Input -->
-<link
-	rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css"
-	/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
-
 <style>
-	.bootstrap-tagsinput {
-		width: 100%;
-		padding: 0.375rem 0.75rem;
-		font-size: 1rem;
-		line-height: 1.5;
-		color: #212529;
-		background-color: #fff;
-		border: 1px solid #ced4da;
-		border-radius: 0.25rem;
-		transition:
-			border-color .15s ease-in-out,
-			box-shadow .15s ease-in-out;
+	/* Select2 Styles */
+	.select2-container {
+		width: 100% !important;
 	}
-	.bootstrap-tagsinput .tag {
-		margin-right: 2px;
-		color: white;
-		background-color: #0d6efd;
-		padding: 2px 6px;
-		border-radius: 4px;
+	.select2-selection--single,
+	.select2-selection--multiple {
+		min-height: 38px !important;
+		border: 1px solid #ced4da !important;
+	}
+	.select2-container--bootstrap-5 .select2-selection {
+		border: 1px solid #ced4da !important;
+	} /* Editor Styles */
+	.django-ckeditor-5-container {
+		width: 100% !important;
+	}
+	.ck.ck-editor {
+		width: 100% !important;
+	}
+	.ck-editor__main {
+		width: 100% !important;
+	}
+	.ck.ck-editor__main > .ck-editor__editable {
+		min-height: 150px !important;
+		height: 150px !important;
+		max-height: 150px !important;
+		width: 100% !important;
+		padding: 1rem !important;
+		overflow-y: auto !important;
+	}
+	/* Form Styles */
+	.form-text {
+		color: #6c757d;
+		font-size: 0.875em;
+		margin-top: 0.25rem;
 	}
 </style>
 
 <div class="container mt-5">
-	<h2>Add a New Project</h2>
-	<form
-		method="post"
-		enctype="multipart/form-data">
-		{% csrf_token %}
-		{% for field in form %}
-		<div class="mb-3">
-			<label class="form-label">{{ field.label }}</label>
-			{{ field }}
-			{% if field.help_text %}
-			<small class="form-text text-muted">{{ field.help_text }}</small>
-			{% endif %}
-			{% if field.errors %}
-			<div class="alert alert-danger mt-2">
-				{{ field.errors }}
-			</div>
-			{% endif %}
+	<div class="row justify-content-center">
+		<div class="col-12">
+			<h2 class="mb-4">Add a New Project</h2>
+			<form
+				method="post"
+				enctype="multipart/form-data">
+				{% csrf_token %} {{ form.non_field_errors }}
+
+				<div class="mb-3">
+					<label
+						for="{{ form.title.id_for_label }}"
+						class="form-label"
+						>Project Title</label
+					>
+					{{ form.title }} {% if form.title.help_text %}
+					<div class="form-text">{{ form.title.help_text }}</div>
+					{% endif %} {{ form.title.errors }}
+				</div>
+
+				<div class="mb-3">
+					<label
+						for="{{ form.content.id_for_label }}"
+						class="form-label"
+						>Project Description</label
+					>
+					{{ form.content }} {% if form.content.help_text %}
+					<div class="form-text">{{ form.content.help_text }}</div>
+					{% endif %} {{ form.content.errors }}
+				</div>
+
+				<div class="mb-3">
+					<label
+						for="{{ form.image.id_for_label }}"
+						class="form-label"
+						>Project Image</label
+					>
+					{{ form.image }}
+					<div class="form-text">
+						Upload an image that represents your project
+					</div>
+					{{ form.image.errors }}
+				</div>
+
+				<div class="mb-3">
+					<label
+						for="{{ form.features.id_for_label }}"
+						class="form-label"
+						>Features</label
+					>
+					{{ form.features }}
+					<div class="form-text">{{ form.features.help_text }}</div>
+					{{ form.features.errors }}
+				</div>
+
+				<div class="mb-3">
+					<label
+						for="{{ form.tech_stack.id_for_label }}"
+						class="form-label"
+						>Tech Stack</label
+					>
+					{{ form.tech_stack }}
+					<div class="form-text">{{ form.tech_stack.help_text }}</div>
+					{{ form.tech_stack.errors }}
+				</div>
+
+				<div class="mb-3">
+					<label
+						for="{{ form.learnings.id_for_label }}"
+						class="form-label"
+						>What I Learned</label
+					>
+					{{ form.learnings }}
+					<div class="form-text">{{ form.learnings.help_text }}</div>
+					{{ form.learnings.errors }}
+				</div>
+
+				<div class="mb-3">
+					<label
+						for="{{ form.project_url.id_for_label }}"
+						class="form-label"
+						>Project URL (optional)</label
+					>
+					{{ form.project_url }}
+					<div class="form-text">Link to your live project if available</div>
+					{{ form.project_url.errors }}
+				</div>
+
+				<div class="mb-3">
+					<label
+						for="{{ form.github_url.id_for_label }}"
+						class="form-label"
+						>GitHub URL (optional)</label
+					>
+					{{ form.github_url }}
+					<div class="form-text">Link to your project's GitHub repository</div>
+					{{ form.github_url.errors }}
+				</div>
+
+				<div class="mb-3">
+					<button
+						type="submit"
+						class="btn btn-primary">
+						Add Project
+					</button>
+					<a
+						href="{% url 'home' %}"
+						class="btn btn-secondary"
+						>Cancel</a
+					>
+				</div>
+			</form>
 		</div>
-		{% endfor %}
-		<button
-			type="submit"
-			class="btn btn-success">
-			Add Project
-		</button>
-	</form>
+	</div>
 </div>
-{% endblock content %}
+
+<script>
+	$(document).ready(function () {
+		// Initialize Select2 for features and tech stack
+		$('.select2-multiple').each(function () {
+			$(this).select2({
+				theme: 'bootstrap-5',
+				width: '100%',
+			});
+		});
+
+		// Initialize CKEditor 5 if not already initialized
+		if (typeof ClassicEditor !== 'undefined') {
+			ClassicEditor.create(document.querySelector('#id_content'), {
+				toolbar: [
+					'heading',
+					'bold',
+					'italic',
+					'bulletedList',
+					'numberedList',
+					'link',
+				],
+				heading: {
+					options: [
+						{
+							model: 'paragraph',
+							title: 'Paragraph',
+							class: 'ck-heading_paragraph',
+						},
+						{
+							model: 'heading1',
+							view: 'h1',
+							title: 'Heading 1',
+							class: 'ck-heading_heading1',
+						},
+						{
+							model: 'heading2',
+							view: 'h2',
+							title: 'Heading 2',
+							class: 'ck-heading_heading2',
+						},
+					],
+				},
+				removePlugins: ['Title'],
+				height: '150px',
+			})
+				.then((editor) => {
+					editor.editing.view.change((writer) => {
+						writer.setStyle(
+							'min-height',
+							'150px',
+							editor.editing.view.document.getRoot()
+						);
+						writer.setStyle(
+							'height',
+							'150px',
+							editor.editing.view.document.getRoot()
+						);
+					});
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		}
+	});
+</script>
+{% endblock %}

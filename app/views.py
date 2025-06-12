@@ -1,6 +1,5 @@
-
 from django.shortcuts import render, redirect
-from .models import Blog
+from .models import Blog, Feature, TechStack
 from .forms import BlogForm
 from django.contrib import messages
 
@@ -22,16 +21,24 @@ def detailed(request, id):
 def add(request):
     if request.method == "POST":
         form = BlogForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Project added successfully!")
-            return redirect("home")
-        else:
-            messages.error(request, "Please correct the errors below.")
+        try:
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Project added successfully!")
+                return redirect("home")
+            else:
+                # Get form errors as messages
+                for field in form.errors:
+                    for error in form.errors[field]:
+                        messages.error(request, f"{field}: {error}")
+                messages.error(request, "Please correct the errors below...")
+        except Exception as e:
+            messages.error(request, f"Error saving project: {str(e)}")
     else:
         form = BlogForm()
 
-    return render(request, "add.html", {"form": form})
+    context = {"form": form}
+    return render(request, "add.html", context)
 
 
 def delete(request, id):
@@ -39,7 +46,25 @@ def delete(request, id):
 
 
 def edit(request, id):
-    return render(request, "edit.html")
+    try:
+        blog = Blog.objects.get(id=id)
+    except Blog.DoesNotExist:
+        messages.error(request, "Project not found!")
+        return redirect("home")
+
+    if request.method == "POST":
+        form = BlogForm(request.POST, request.FILES, instance=blog)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Project updated successfully!")
+            return redirect("home")
+        else:
+            messages.error(request, "Please correct the errors below...")
+    else:
+        form = BlogForm(instance=blog)
+
+    context = {"form": form, "blog": blog}
+    return render(request, "add.html", context)
 
 
 def search(request):
