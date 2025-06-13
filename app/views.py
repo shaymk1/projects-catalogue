@@ -7,13 +7,12 @@ from django.core.paginator import Paginator
 
 def home(request):
     blogs = Blog.objects.all().order_by("-created_at")
-    context = {
-        "blogs": blogs,
-    }
-    # pagination
     paginator = Paginator(blogs, 6)
-    page_number = request.Get("page")
-    page_obj = paginator.get(page_number)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    context = {
+        "page_obj": page_obj,
+    }
     return render(request, "index.html", context)
 
 

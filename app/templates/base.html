@@ -73,37 +73,9 @@
 							Search
 						</button>
 					</form>
-					<div class="btn-group">
-						<button
-							type="button"
-							class="btn btn-primary dropdown-toggle"
-							data-bs-toggle="dropdown"
-							aria-expanded="false">
-							Add
-						</button>
-						<ul class="dropdown-menu dropdown-menu-end">
-							<li>
-								<a
-									class="dropdown-item"
-									href="{% url 'add' %}"
-									>Add Project</a
-								>
-							</li>
-							<li>
-								<a
-									class="dropdown-item"
-									href="update.html"
-									>Update Project</a
-								>
-							</li>
-							<li>
-								<a
-									class="dropdown-item"
-									href="delete.html"
-									>Delete Project</a
-								>
-							</li>
-						</ul>
+					<div >
+						<a class="btn btn-primary" href="{% url 'add' %}"
+						>Add Project</a>
 					</div>
 				</div>
 			</div>
