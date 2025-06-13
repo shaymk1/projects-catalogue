@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+import re
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import Blog, Feature, TechStack
 from .forms import BlogForm
 from django.contrib import messages
@@ -42,7 +43,14 @@ def add(request):
 
 
 def delete(request, id):
-    return render(request, "delete.html")
+    blog = get_object_or_404(Blog, id=id)
+    if request.method == "POST":
+        blog.delete()
+        messages.success(request, "Project deleted successfully!")
+        return redirect("home")
+    context = {"blog": blog}
+
+    return render(request, "delete.html", context)
 
 
 def edit(request, id):

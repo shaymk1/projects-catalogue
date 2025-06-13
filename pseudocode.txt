@@ -1,0 +1,11 @@
+
+Function: delete_project(request, id)
+    1. Get the project (Blog) object by its id
+        - If not found, show 404 error
+    2. If the request method is POST:
+        - Delete the project from the database
+        - Show a success message
+        - Redirect to the home/projects list page
+    3. If the request method is GET:
+        - Render a confirmation page asking "Are you sure you want to delete?"
+        - Pass the project to the template for display

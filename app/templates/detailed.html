@@ -79,6 +79,12 @@
 							<i class="bi bi-github me-2"></i>View on GitHub
 						</a>
 						{% endif %}
+							<a
+							href="{% url 'delete' blog.id %}"
+							class="btn btn-danger"
+							target="_blank">
+							Delete
+						</a>
 						<a
 							href="{% url 'home' %}"
 							class="btn btn-outline-secondary">

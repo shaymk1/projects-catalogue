@@ -89,6 +89,10 @@ class BlogForm(forms.ModelForm):
         if commit:
             instance.save()
 
+            # Save many-to-many fields: features and tech_stack
+            # Save relationships from ModelMultipleChoiceFields
+            self.save_m2m()
+
             # Handle learnings - split by newlines and create Learning objects
             learning_points = [
                 point.strip()

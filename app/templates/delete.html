@@ -42,19 +42,36 @@
         </div>
     </nav>
     <div class="container mt-5">
-        <h2>Delete a Project</h2>
-        <form>
-            <div class="mb-3">
-                <label for="deleteProjectSelect" class="form-label">Select Project</label>
-                <select class="form-select" id="deleteProjectSelect" required>
-                    <option selected disabled value="">Choose...</option>
-                    <option>Project 1</option>
-                    <option>Project 2</option>
-                </select>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    {% if blog.image %}
+                    <img src="{{ blog.image.url }}" class="card-img-top" alt="{{ blog.title }}" style="max-height: 300px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body text-center">
+                        <h2 class="card-title mb-3">{{ blog.title }}</h2>
+                        <p class="mb-4 text-danger fw-bold">Are you sure you want to delete this project?</p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                            <a href="{% url 'home'  %}" class="btn btn-secondary ms-2">Cancel</a>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-danger">Delete Project</button>
-        </form>
+        </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Fade out success messages after 3 seconds
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert-success');
+            alerts.forEach(function(alert) {
+                alert.classList.add('fade');
+                setTimeout(function() { alert.style.display = 'none'; }, 500);
+            });
+        }, 3000);
+    </script>
 </body>
 </html>
