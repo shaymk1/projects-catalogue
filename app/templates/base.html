@@ -61,21 +61,29 @@
 					</ul>
 					<form
 						class="d-flex me-2"
-						role="search">
+						role="search"
+						method="get" action="{% url 'home' %}">
+						{% csrf_token %}
 						<input
 							class="form-control me-2"
 							type="search"
 							placeholder="Search"
-							aria-label="Search" />
+							aria-label="Search"
+							name="q"
+							value="{{ search_query|default_if_none:'' }}" />
 						<button
 							class="btn btn-outline-success"
-							type="submit">
+							type="submit"
+							>
 							Search
 						</button>
 					</form>
-					<div >
-						<a class="btn btn-primary" href="{% url 'add' %}"
-						>Add Project</a>
+					<div>
+						<a
+							class="btn btn-primary"
+							href="{% url 'add' %}"
+							>Add Project</a
+						>
 					</div>
 				</div>
 			</div>
