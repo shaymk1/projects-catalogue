@@ -82,6 +82,11 @@ class BlogForm(forms.ModelForm):
                 "placeholder": "https://github.com/username/repository",
             }
         )
+        # Pre-populate learnings field with current learnings (one per line)
+        if self.instance.pk:
+            self.fields["learnings"].initial = "\n".join(
+                learning.description for learning in self.instance.learnings.all()
+            )
 
     def save(self, commit=True):
         instance = super().save(commit=False)

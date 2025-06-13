@@ -1,64 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Project - Projects Catalogue</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="static/css/style.css">
-</head>
-<body>
-    <!-- ...existing navbar code... -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">Projects Catalogue</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="projects.html">Projects</a>
-                    </li>
-                </ul>
-                <form class="d-flex me-2" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+
+    {% extends "base.html" %}
+    {% load static %}
+    {% block content %}
+    <body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h2 class="mb-4">Edit Project</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+
+                    <div class="mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label">Project Title</label>
+                        {{ form.title }}
+                        {% if form.title.help_text %}<div class="form-text">{{ form.title.help_text }}</div>{% endif %}
+                        {{ form.title.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.content.id_for_label }}" class="form-label">Project Description</label>
+                        {{ form.content }}
+                        {% if form.content.help_text %}<div class="form-text">{{ form.content.help_text }}</div>{% endif %}
+                        {{ form.content.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.image.id_for_label }}" class="form-label">Project Image</label>
+                        {% if blog and blog.image %}
+                            <div class="mb-2">
+                                <img src="{{ blog.image.url }}" alt="Current Image" style="max-height: 200px; object-fit: cover;">
+                            </div>
+                        {% endif %}
+                        {{ form.image }}
+                        <div class="form-text">Upload a new image to replace the current one (optional)</div>
+                        {{ form.image.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.features.id_for_label }}" class="form-label">Features</label>
+                        {{ form.features }}
+                        {{ form.features.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.tech_stack.id_for_label }}" class="form-label">Tech Stack</label>
+                        {{ form.tech_stack }}
+                        {{ form.tech_stack.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.learnings.id_for_label }}" class="form-label">What I Learned</label>
+                        {{ form.learnings }}
+                        {{ form.learnings.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.project_url.id_for_label }}" class="form-label">Project URL (optional)</label>
+                        {{ form.project_url }}
+                        {{ form.project_url.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.github_url.id_for_label }}" class="form-label">GitHub URL (optional)</label>
+                        {{ form.github_url }}
+                        {{ form.github_url.errors }}
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-warning text-white">Update Project</button>
+                        <a href="{% url 'home'  %}" class="btn btn-secondary ms-2">Cancel</a>
+                    </div>
                 </form>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Add
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="add.html">Add Project</a></li>
-                        <li><a class="dropdown-item active" aria-current="page" href="update.html">Update Project</a></li>
-                        <li><a class="dropdown-item" href="delete.html">Delete Project</a></li>
-                    </ul>
+                {% if messages %}
+                <div class="mt-3">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
                 </div>
+                {% endif %}
             </div>
         </div>
-    </nav>
-    <div class="container mt-5">
-        <h2>Update a Project</h2>
-        <form>
-            <div class="mb-3">
-                <label for="projectSelect" class="form-label">Select Project</label>
-                <select class="form-select" id="projectSelect" required>
-                    <option selected disabled value="">Choose...</option>
-                    <option>Project 1</option>
-                    <option>Project 2</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="updateDescription" class="form-label">Update What You Learned</label>
-                <textarea class="form-control" id="updateDescription" rows="4" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-warning">Update Project</button>
-        </form>
     </div>
+    {% endblock %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

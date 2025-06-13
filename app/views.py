@@ -1,8 +1,8 @@
-import re
 from django.shortcuts import get_object_or_404, render, redirect
-from .models import Blog, Feature, TechStack
+from .models import Blog
 from .forms import BlogForm
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 def home(request):
@@ -10,6 +10,10 @@ def home(request):
     context = {
         "blogs": blogs,
     }
+    # pagination
+    paginator = Paginator(blogs, 6)
+    page_number = request.Get("page")
+    page_obj = paginator.get(page_number)
     return render(request, "index.html", context)
 
 
@@ -54,12 +58,7 @@ def delete(request, id):
 
 
 def edit(request, id):
-    try:
-        blog = Blog.objects.get(id=id)
-    except Blog.DoesNotExist:
-        messages.error(request, "Project not found!")
-        return redirect("home")
-
+    blog = get_object_or_404(Blog, id=id)
     if request.method == "POST":
         form = BlogForm(request.POST, request.FILES, instance=blog)
         if form.is_valid():
@@ -67,12 +66,15 @@ def edit(request, id):
             messages.success(request, "Project updated successfully!")
             return redirect("home")
         else:
+            # Get form errors as messages
+            for field in form.errors:
+                for error in form.errors[field]:
+                    messages.error(request, f"{field}: {error}")
             messages.error(request, "Please correct the errors below...")
     else:
         form = BlogForm(instance=blog)
-
     context = {"form": form, "blog": blog}
-    return render(request, "add.html", context)
+    return render(request, "edit.html", context)
 
 
 def search(request):
